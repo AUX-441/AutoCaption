@@ -18,7 +18,7 @@ class Translator:
     def translate_segment(self, segment):
         original_text = segment.get("text", "")
         try:
-            translated = GoogleTranslator(source="auto", target="fa").translate(original_text)
+            translated = GoogleTranslator(source="auto", target="en").translate(original_text)
         except Exception as e:
             translated = "[Failed to Translate]"
             print(f"Translation failed for '{original_text}': {e}")
