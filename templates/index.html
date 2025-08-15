@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submind - زیرنویس خودکار ویدیو</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index_style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favcion.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <!-- 3D Logo Container -->
+        <div class="logo-container" id="container">
+            <div class="logo-wrapper">
+                <i class="fas fa-closed-captioning logo-icon"></i>
+                <span class="logo-text">Submind</span>
+            </div>
+            <p class="logo-tagline">پلتفرم پیشرفته تولید خودکار زیرنویس ویدیو با استفاده از هوش مصنوعی</p>
+            <a href="#upload" class="logo-cta pulse">
+                <i class="fas fa-play-circle"></i> شروع کنید
+            </a>
+        </div>
+
+        <!-- Upload Section -->
+        <section id="upload" class="upload-section">
+            <div class="section-title">
+                <h2>آپلود ویدیو</h2>
+                <p>ویدیوی خود را آپلود کنید و زیرنویس خودکار با کیفیت بالا دریافت نمایید</p>
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="video_files" id="fileInput" class="file-input" multiple required accept="video/*">
+                <label for="fileInput" class="file-label">
+                    <i class="fas fa-cloud-upload-alt"></i> انتخاب فایل ویدیویی
+                </label>
+                <p id="fileName">هیچ فایلی انتخاب نشده است</p>
+                <button type="submit" class="btn start-btn">
+                    <i class="fas fa-upload"></i> آپلود ویدیو
+                </button>
+            </form>
+        </section>
+
+        <section class="status-container">
+    <div class="section-title">
+        <h2>وضعیت پردازش فایل‌ها</h2>
+        <p>نمایش وضعیت فعلی فایل‌های در حال پردازش و آماده دانلود</p>
+    </div>
+    <table class="status-table">
+        <thead>
+            <tr>
+                <th>نام فایل</th>
+                <th>وضعیت پردازش</th>
+                <th>آخرین به‌روزرسانی</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files_status %}
+            <tr>
+                <td>{{ file.original_name }}</td>
+                <td>
+                    <span id="{{ file.filename }}" class="status-badge {% if file.state == 'ended' %}ended{% elif file.state == 'processing' %}processing{% elif 'error' in file.state %}error{% endif %}">
+                        {{ file.state }}
+                    </span>
+                </td>
+                <td id="{{ file.filename }}_updated">{{ file.last_updated }}</td>
+                <td>
+                    <!-- اینجا دقت کن: filename اصلی میاد داخل تابع دانلود -->
+                    <button onclick="checkAndDownload('{{ file.filename }}')" class="btn download-btn">
+                        <i class="fas fa-download"></i> دریافت فایل
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+
+            <div class="text-center mt-4">
+                <button onclick="startProcessing()" class="btn start-btn">
+                    <i class="fas fa-sync-alt"></i>شروع پردازش
+                </button>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-container" id="stats">
+            <div class="section-title">
+                <h2>Submind در یک نگاه</h2>
+                <p>آمار و ارقامی که نشان دهنده قدرت و کیفیت خدمات ماست</p>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">99+</div>
+                    <div class="stat-title">زبان پشتیبانی شده</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-title">دقت تشخیص گفتار</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5-7</div>
+                    <div class="stat-title">دقیقه پردازش برای هر ساعت ویدیو</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-title">دقت در سانسور کلمات و جملات</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+<section class="features-container" id="features">
+    <div class="section-title">
+        <h2>قابلیت‌های منحصر به فرد Submind</h2>
+        <p>ویژگی‌هایی که تجربه شما را در تولید زیرنویس متحول می‌کند</p>
+    </div>
+    <div class="features">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-language"></i>
+            </div>
+            <h3 class="feature-title">پشتیبانی از 99 زبان زنده دنیا</h3>
+            <p class="feature-desc">
+                Submind قادر به تولید زیرنویس دقیق برای 99 زبان مختلف است، از جمله فارسی، انگلیسی، عربی، چینی و بسیاری دیگر. حتی گویش‌های مختلف را به خوبی تشخیص می‌دهد.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-film"></i>
+            </div>
+            <h3 class="feature-title">کیفیت بدون تغییر</h3>
+            <p class="feature-desc">
+                در طول فرایند زیرنویس‌گذاری، کیفیت تصویر و صدای ویدیو کاملاً حفظ می‌شود. فایل نهایی با بهترین استانداردهای ممکن ارائه می‌گردد.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="feature-title">سانسور خودکار محتوا</h3>
+            <p class="feature-desc">
+                سامانه دارای سیستم پالایش هوشمند برای حذف یا جایگزینی کلمات نامناسب در زیرنویس است. این فرآیند به شکل خودکار و بدون نیاز به مداخله دستی انجام می‌شود.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h3 class="feature-title">پردازش فوق‌سریع</h3>
+            <p class="feature-desc">
+                ویدیوهایی با مدت زمان تا 2 ساعت، تنها در چند دقیقه پردازش و آماده دانلود می‌شوند. عملکرد بهینه و زمان پاسخ‌دهی بسیار سریع، از ویژگی‌های کلیدی این سیستم است.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-edit"></i>
+            </div>
+            <h3 class="feature-title">ویرایشگر زیرنویس قابل تنظیم</h3>
+            <p class="feature-desc">
+                پس از تولید زیرنویس، امکان ویرایش دقیق و دستی زمان‌بندی و محتوای زیرنویس‌ها وجود دارد. تمام ابزارهای لازم برای تنظیم و اصلاح در اختیار کاربر قرار دارد.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <h3 class="feature-title">پاک‌سازی خودکار فایل‌ها</h3>
+            <p class="feature-desc">
+                برای جلوگیری از استفاده بی‌رویه از منابع سرور، تمامی فایل‌های آپلود و خروجی بلافاصله پس از دانلود نسخه نهایی فیلم با زیر نویس به‌صورت خودکار حذف می‌شوند, این کار باعث می‌شود که نیاز به استفاده از سرورهای قدرتمند و پرهزینه نداشته باشه.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- How To Use Section -->
+<section class="how-to-container" id="how-to">
+    <div class="section-title">
+        <h2>راهنمای جامع استفاده از Submind</h2>
+        <p>آموزش گام به گام استفاده از سرویس هوشمند تولید خودکار زیرنویس</p>
+    </div>
+
+    <div class="steps">
+        <!-- Step 1 -->
+        <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3 class="step-title">آماده‌سازی و آپلود ویدیو</h3>
+                <div class="step-desc">
+                    <p>سرویس Submind از طیف گسترده‌ای از فرمت‌های ویدیویی پشتیبانی می‌کند:</p>
+                    <ul class="supported-formats">
+                        <li><i class="fas fa-check-circle"></i> فرمت‌های رایج: MP4, MOV, AVI, MKV, WMV</li>
+                        <li><i class="fas fa-check-circle"></i> فرمت‌های وب: WEBM, FLV</li>
+                        <li><i class="fas fa-check-circle"></i> کیفیت‌های مختلف: از 144p تا 4K و HDR</li>
+                    </ul>
+                    <p class="mt-3">برای شروع، روی دکمه "انتخاب فایل ویدیویی" کلیک کرده و فایل(های) مورد نظر خود را انتخاب نمایید.</p>
+                </div>
+            </div>
+            <div class="step-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3 class="step-title">شروع فرآیند پردازش</h3>
+                <div class="step-desc">
+                    <p>پس از انتخاب فایل(ها)، دکمه "آپلود و شروع پردازش" را کلیک کنید. سیستم به صورت خودکار:</p>
+                    <ul class="process-steps">
+                        <li><i class="fas fa-cog"></i> فایل را دریافت و بررسی می‌کند</li>
+                        <li><i class="fas fa-microphone"></i> محتوای صوتی را استخراج می‌نماید</li>
+                        <li><i class="fas fa-language"></i> گفتار را به متن تبدیل می‌کند</li>
+                    </ul>
+                    <div class="note-box">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>توجه:</strong> مدت زمان پردازش بستگی به طول ویدیو دارد (به‌طور متوسط 5-7 دقیقه برای هر ساعت ویدیو)
+                    </div>
+                </div>
+            </div>
+            <div class="step-icon">
+                <i class="fas fa-play-circle"></i>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3 class="step-title">پیگیری وضعیت پردازش</h3>
+                <div class="step-desc">
+                    <p>می‌توانید وضعیت پردازش فایل‌ها را در بخش "وضعیت پردازش فایل‌ها" مشاهده کنید:</p>
+
+                    <div class="status-examples">
+                        <div class="status-example">
+                            <span class="status-badge processing">processing</span>
+                            <span>ویدیو در حال پردازش است .</span>
+                        </div>
+                        <div class="status-example">
+                            <span class="status-badge ended">ended</span>
+                            <span>پردازش با موفقیت انجام شد .</span>
+                        </div>
+                        <div class="status-example">
+                            <span class="status-badge error">error</span>
+                            <span>خطا در پردازش (در صورت مشاهده با پشتیبانی تماس بگیرید) .</span>
+                        </div>
+                    </div>
+
+                    <p class="mt-3">برای فایل‌های چندگانه، پردازش به صورت متوالی انجام می‌شود و می‌توانید پیشرفت هر فایل را جداگانه مشاهده کنید.</p>
+                </div>
+            </div>
+            <div class="step-icon">
+                <i class="fas fa-tasks"></i>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h3 class="step-title">دریافت فایل نهایی</h3>
+                <div class="step-desc">
+                    <p>پس از تغییر وضعیت به "ended"، دکمه "دریافت فایل" را کلیک کنید تا:</p>
+                    <ul class="download-features">
+                        <li><i class="fas fa-file-video"></i> ویدیو با زیرنویس ثابت (hardcoded) دانلود شود .</li>
+                    </ul>
+
+                    <div class="important-note">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>مهم:</strong> فایل‌ها پس از دانلود به صورت خودکار از سرور حذف می‌شوند، بنابراین حتماً از فایل‌های خود نسخه پشتیبان تهیه کنید.
+                    </div>
+                </div>
+            </div>
+            <div class="step-icon">
+                <i class="fas fa-download"></i>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+        <!-- FAQ Section -->
+        <section class="faq-container" id="faq">
+    <div class="section-title">
+        <h2>سوالات متداول</h2>
+        <p>پاسخ به سوالات پرتکرار کاربران درباره عملکرد سرویس Submind</p>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>چه فرمت‌های ویدیویی پشتیبانی می‌شوند؟</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+            سرویس Submind از طیف وسیعی از فرمت‌های ویدیویی پشتیبانی می‌کند که شامل پرکاربردترین فرمت‌ها مانند MP4، MOV، AVI، MKV، WMV و WEBM می‌شود. این پشتیبانی گسترده باعث می‌شود کاربران بدون نیاز به تبدیل فایل، بتوانند ویدیوهای خود را مستقیماً بارگذاری و پردازش کنند. همچنین، این پلتفرم توانایی کامل در پردازش ویدیوهایی با کیفیت‌های بالا نظیر HD، Full HD، 2K، 4K و حتی HDR را دارد. بدون توجه به حجم فایل یا کیفیت تصویر، عملیات تحلیل و تولید زیرنویس با دقت بالا و بدون کاهش کیفیت انجام می‌گیرد. این ویژگی، Submind را به انتخابی ایده‌آل برای کاربرانی تبدیل کرده که با محتوای حرفه‌ای و با رزولوشن بالا کار می‌کنند.
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>حداکثر حجم و مدت زمان قابل پشتیبانی برای هر ویدیو چقدر است؟</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+            خیر، در سیستم Submind هیچ محدودیتی برای حجم یا مدت زمان فایل ویدیویی در نظر گرفته نشده است. کاربران می‌توانند ویدیوهایی با هر اندازه و طول را بارگذاری کنند. با این حال، بدیهی است که هرچه حجم فایل بیشتر باشد، مصرف منابع سرور نیز بالاتر رفته و در نتیجه مدت زمان لازم برای پردازش و تحویل زیرنویس نهایی افزایش می‌یابد. لطفاً در صورتی که قصد بارگذاری فایل‌هایی با حجم بسیار بالا را دارید، مدت زمان بیشتری برای آماده‌سازی نتایج در نظر بگیرید.
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>آیا می‌توان ظاهر زیرنویس را شخصی‌سازی کرد؟</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+            در حال حاضر، تمامی تنظیمات ظاهری زیرنویس‌ها در Submind به‌صورت پیش‌فرض و استاندارد تعریف شده‌اند تا روند پردازش و ارائه خروجی به‌طور کامل خودکار، سریع و بدون پیچیدگی انجام گیرد. این رویکرد با هدف کاهش خطای کاربر، بهینه‌سازی زمان پردازش و ارائه تجربه‌ای یکپارچه برای همه‌ی کاربران اتخاذ شده است.
+            <br><br>
+            با این حال، اگر نیاز به شخصی‌سازی سبک زیرنویس (مانند تغییر فونت، رنگ، موقعیت، اندازه یا پس‌زمینه) دارید، می‌توانید پس از دریافت خروجی، از نرم‌افزارهای ویرایش زیرنویس مانند <strong>Aegisub</strong>، <strong>Subtitle Edit</strong> یا <strong>Jubler</strong> استفاده کنید. این ابزارها رایگان و قابل استفاده روی اکثر سیستم‌عامل‌ها هستند و امکانات گسترده‌ای برای ویرایش حرفه‌ای زیرنویس‌ها در اختیار شما قرار می‌دهند.
+        </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>فایل‌ها پس از پردازش چگونه مدیریت می‌شوند؟</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+به‌منظور بهینه‌سازی مصرف منابع سرور و حفظ عملکرد پایدار سیستم، تمامی فایل‌های ویدیویی و زیرنویس پس از اتمام فرآیند پردازش به‌صورت خودکار و بدون نیاز به دخالت کاربر، از فضای ذخیره‌سازی سرورها حذف می‌شوند. این سیاست پاک‌سازی خودکار، مانع از اشغال بی‌رویه حافظه و بار اضافی روی سرورها می‌شود و باعث افزایش سرعت پاسخ‌دهی و کیفیت خدمات برای تمامی کاربران می‌گردد. کاربران عزیز نیازی به نگرانی درباره مدیریت یا حذف دستی فایل‌ها ندارند، چرا که این فرآیند به‌صورت هوشمندانه و کاملاً خودکار انجام شده و امنیت اطلاعات شما نیز همواره تضمین می‌شود .            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>چگونه می‌توان دقت زیرنویس را افزایش داد؟</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+در صورت پایین بودن کیفیت صدای ویدیو (نه کیفیت تصویر)، ممکن است دقت و صحت زیرنویس تولید شده توسط Submind کاهش یابد و خطاهایی در تشخیص رخ دهد. برای رسیدن به بهترین نتیجه، توصیه می‌شود صدای ویدیو واضح و گویش گوینده قابل فهم باشد. وجود نویزهای معمول در پس‌زمینه مشکلی ایجاد نمی‌کند، اما تلفظ دقیق و روشن اصطلاحات تخصصی یا کلمات خاص به بهبود کیفیت زیرنویس کمک می‌کند.        </div>
+    </div>
+</section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>درباره Submind</h3>
+                    <p>
+Submind یک سرویس پیشرفته و دقیق برای تولید خودکار زیرنویس ویدیو است که با بهره‌گیری از فناوری‌های نوین پردازش گفتار، گفتار ویدیوها را به‌طور سریع و دقیق به زیرنویس تبدیل می‌کند.                    </p>
+                    <div class="social-links">
+                        <a href="https://t.me/Slayethcialhacker" target="_blank" title="تلگرام"><i class="fab fa-telegram"></i></a>
+                        <a href="https://instagram.com/ehsas6ha" target="_blank" title="اینستاگرام"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/989055069411" target="_blank" title="واتساپ"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>ارتباط با ما</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-phone-alt"></i> تلفن ثابت: 05136512313</li>
+                        <li><i class="fas fa-mobile-alt"></i> موبایل: 09055069411</li>
+                        <li><i class="fas fa-envelope"></i> ایمیل: submindf@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> ایران، مشهد، بلوار جانباز , برج نیکا</li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>لینک‌های مفید</h3>
+                    <ul class="footer-links">
+                        <li><a href="#container"><i class="fas fa-chevron-left"></i> صفحه اصلی</a></li>
+                        <li><a href="#upload"><i class="fas fa-chevron-left"></i> آپلود ویدیو</a></li>
+                        <li><a href="#how-to"><i class="fas fa-chevron-left"></i>نهوه استفاده</a></li>
+                        <li><a href="tel:09055069411"><i class="fas fa-chevron-left"></i>تماس مستقیم با ما</a></li>
+                </div>
+
+                <div class="footer-section">
+                    <h3>راهنمایی</h3>
+                    <ul class="footer-links">
+                        <li><a href="#stats"><i class="fas fa-chevron-left"></i>امکانات</a></li>
+                        <li><a href="#faq"><i class="fas fa-chevron-left"></i> سوالات متداول</a></li>
+                        <li><a href="#features"><i class="fas fa-chevron-left"></i> ویژگی ها</a></li>
+                        <li><a href="#upload"><i class="fas fa-chevron-left"></i>شروع کنید</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>© 2025 Submind - تمامی حقوق این سرویس محفوظ و متعلق به شرکت سابمایند می‌باشد</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // تابع برای بروزرسانی وضعیت فایل‌ها از سرور
+function refreshStatus() {
+    fetch('/status')
+        .then(res => res.json())
+        .then(data => {
+            for (const [filename, statusData] of Object.entries(data)) {
+                const el = document.getElementById(filename);
+                const updatedEl = document.getElementById(filename + "_updated");
+                if (el) {
+                    el.textContent = statusData.state;
+                    el.className = `status-badge ${
+                        statusData.state === "ended" ? "ended" :
+                        statusData.state === "processing" ? "processing" :
+                        statusData.state.includes("error") ? "error" : ""
+                    }`;
+                }
+                if (updatedEl) {
+                    updatedEl.textContent = statusData.last_updated || "-";
+                }
+            }
+        })
+        .catch(error => console.error('Error refreshing status:', error));
+}
+
+// بروزرسانی اولیه و تکرار هر 3 ثانیه
+refreshStatus();
+setInterval(refreshStatus, 3000);
+
+// تابع شروع پردازش (اگر نیاز داری)
+function startProcessing() {
+    const btn = document.querySelector('.start-btn');
+    const originalText = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+    fetch('/start_processing', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            showToast(data.message, 'success');
+            refreshStatus();
+        })
+        .catch(error => {
+            showToast('Error while Start Processing...', 'error');
+            console.error('Error:', error);
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        });
+}
+
+// تابع بررسی آماده بودن و دانلود فایل
+function checkAndDownload(filename) {
+    const btn = document.querySelector(`button[onclick="checkAndDownload('${filename}')"]`);
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+
+    fetch('/status')
+        .then(res => res.json())
+        .then(statuses => {
+            const st = statuses[filename];
+            const outName = st && st.output_filename ? st.output_filename : null;
+            const filenameToCheck = outName || filename;
+
+            return fetch('/check_file/' + filenameToCheck)
+                .then(res => res.json())
+                .then(data => ({ data, filenameToCheck }));
+        })
+        .then(({ data, filenameToCheck }) => {
+            if (data.ready) {
+                const link = document.createElement('a');
+                link.href = '/download/' + filenameToCheck;
+                link.download = filenameToCheck;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                showToast('Download started', 'success');
+            } else {
+                throw new Error("File is not ready yet, please wait...");
+            }
+        })
+        .catch(error => {
+            showToast(error.message, 'error');
+            console.error(error);
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        });
+}
+
+// توست نوتیفیکیشن برای نمایش پیام‌ها
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-icon">
+            ${type === 'success' ? '<i class="fas fa-check-circle"></i>' :
+             type === 'error' ? '<i class="fas fa-exclamation-circle"></i>' :
+             '<i class="fas fa-info-circle"></i>'}
+        </div>
+        <div class="toast-message">${message}</div>
+        <button class="toast-close"><i class="fas fa-times"></i></button>
+    `;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+
+    const closeBtn = toast.querySelector('.toast-close');
+    closeBtn.addEventListener('click', () => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    });
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 5000);
+}
+
+        const toastStyle = document.createElement('style');
+        toastStyle.textContent = `
+            .toast {
+                position: fixed;
+                bottom: 30px;
+                left: 30px;
+                background: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                transform: translateX(-150%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+                max-width: 400px;
+            }
+            .toast.show {
+                transform: translateX(0);
+            }
+            .toast-success {
+                border-right: 4px solid var(--success);
+            }
+            .toast-error {
+                border-right: 4px solid var(--danger);
+            }
+            .toast-info {
+                border-right: 4px solid var(--primary);
+            }
+            .toast-icon {
+                font-size: 24px;
+            }
+            .toast-success .toast-icon {
+                color: var(--success);
+            }
+            .toast-error .toast-icon {
+                color: var(--danger);
+            }
+            .toast-info .toast-icon {
+                color: var(--primary);
+            }
+            .toast-message {
+                flex: 1;
+                font-size: 15px;
+            }
+            .toast-close {
+                background: none;
+                border: none;
+                color: var(--gray);
+                cursor: pointer;
+                font-size: 16px;
+                padding: 0;
+                margin-right: -5px;
+                opacity: 0.7;
+                transition: opacity 0.2s;
+            }
+            .toast-close:hover {
+                opacity: 1;
+            }
+        `;
+        document.head.appendChild(toastStyle);
+    </script>
+</body>
+</html>

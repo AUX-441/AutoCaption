@@ -1,0 +1,14 @@
+{
+    "video_path": "Videos\\0ac5ad125776401b910a96c943012c4a.mp4",
+    "converted_audio_dir": "Converted_Videos",
+    "logs_dir": "logs",
+    "logs_filename": "logs.json",
+    "translated_segments_filename": "translated_segments.json",
+    "blacklist_dir": "black_list",
+    "blacklist_filename": "black_list.json",
+    "srt_output_dir": "SRT",
+    "srt_suffix": "_translated.srt",
+    "srt_path": "SRT/0ac5ad125776401b910a96c943012c4a_translated.srt",
+    "output_video_path": "output/0ac5ad125776401b910a96c943012c4a_translated.mp4",
+    "formal_2_casual": "formal2casual_dataset/formal_to_casual_dict.json"
+}

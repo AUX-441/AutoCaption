@@ -1,0 +1,16 @@
+Flask==2.3.2
+whisper==1.0.0
+moviepy==1.0.3
+deep-translator==1.8.3
+Flask==2.3.3
+deep-translator==1.11.4
+moviepy==1.0.3
+ffmpeg-python==0.2.0
+torch>=2.0.0
+numpy>=1.23
+click>=8.1
+tqdm
+requests
+Werkzeug==2.3.7
+
+
