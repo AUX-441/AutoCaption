@@ -1,40 +1,50 @@
-# Persian Video Subtitle Translator
+# 🎬 Persian Video Subtitle Translator
 
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)
-![Flask](https://img.shields.io/badge/flask-2.0%2B-lightgrey)
-![FFmpeg](https://img.shields.io/badge/FFmpeg-required-orange)
-![Whisper](https://img.shields.io/badge/OpenAI_Whisper-medium-blueviolet)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.2+-blue?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![OpenAI Whisper](https://img.shields.io/badge/Whisper-OpenAI-orange?logo=openai&logoColor=white)](https://openai.com/research/whisper)
+[![FFmpeg](https://img.shields.io/badge/FFmpeg-4.x-red?logo=ffmpeg&logoColor=white)](https://ffmpeg.org/)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-A powerful web application that automatically translates English video subtitles to Persian (Farsi) and burns them into the video with proper formatting.
+A **powerful Python web application** that automatically translates English video subtitles to Persian (Farsi) and burns them directly into your videos with precise timing and formatting. Perfect for content creators, educators, and video enthusiasts who want Persian subtitles in a snap.
+
+---
 
 ## 🌟 Features
 
-- **Automatic Speech Recognition** using OpenAI's Whisper model
-- **English-to-Persian Translation** with Google Translate API
-- **SRT Generation** with proper timing and formatting
-- **Subtitle Burning** into videos using FFmpeg
-- **Web Interface** for easy upload and management
-- **Queue System** for processing multiple videos
-- **Real-time Status Updates** for each video
-- **Automatic Cleanup** of temporary files
-- **Formal-to-Casual Persian Conversion** for natural translations
+- **Automatic Speech Recognition**: Uses OpenAI's Whisper model (medium) for high-accuracy transcription.
+- **English → Persian Translation**: Powered by Google Translate API.
+- **SRT Subtitle Generation**: Proper timing and formatting guaranteed.
+- **Subtitle Burning**: Embed subtitles into videos via FFmpeg.
+- **User-Friendly Web Interface**: Upload, manage, and track your videos easily.
+- **Queue System**: Handle multiple video translations efficiently.
+- **Real-Time Status Updates**: Monitor processing status live.
+- **Automatic Cleanup**: Temporary files removed to save storage.
+- **Formal-to-Casual Persian Conversion**: Natural and fluent translations.
+- **Custom Persian Text Normalization**: Improves readability and accuracy.
+
+---
 
 ## 🛠️ Technical Stack
 
-- **Backend**: Flask (Python)
-- **Speech-to-Text**: OpenAI Whisper (medium model)
-- **Translation**: Google Translator API
-- **Video Processing**: FFmpeg
-- **Text Processing**: Custom Persian text normalizer
-- **Concurrency**: Python Threading
+| Component | Technology |
+|-----------|-----------|
+| Backend | Flask (Python) |
+| Speech-to-Text | OpenAI Whisper (medium) |
+| Translation | Google Translator API |
+| Video Processing | FFmpeg |
+| Text Processing | Custom Persian text normalizer |
+| Concurrency | Python Threading |
+
+---
 
 ## 📦 Installation
 
 ### Prerequisites
 
-1. Python 3.8+
-2. FFmpeg (must be in system PATH)
-3. Whisper dependencies (see [openai/whisper](https://github.com/openai/whisper))
+- Python 3.8+
+- FFmpeg (must be in system PATH)
+- Whisper dependencies (`openai/whisper`)
 
 ### Setup
 
@@ -56,19 +66,23 @@ mkdir -p Videos output process_status config Converted_Videos logs SRT black_lis
 # Create config file
 echo '{}' > config/config.json
 🚀 Usage
-Start the application:
-
 bash
+Copy
+Edit
+# Start the application
 python app.py
 Access the web interface at http://localhost:5000
 
-Upload your video files (MP4 format recommended)
+Upload your video files (MP4 recommended)
 
-Click "Start Processing" to begin translation
+Click Start Processing
 
 Download processed videos when ready
 
 🏗️ Project Structure
+text
+Copy
+Edit
 text
 ├── app.py                # Main Flask application
 ├── main.py               # Core processing pipeline
@@ -81,12 +95,14 @@ text
 ├── Videos/               # Uploaded videos storage
 ├── output/               # Processed videos output
 ├── process_status/       # Processing status files
-├── templates/            # Flask templates (not shown in code)
+├── templates/            # Flask templates
 └── requirements.txt      # Python dependencies
 🔧 Configuration
-Edit config/config.json to customize:
+Edit config/config.json to customize paths and behavior:
 
 json
+Copy
+Edit
 {
   "video_path": "path/to/input/video",
   "converted_audio_dir": "Converted_Videos",
@@ -102,7 +118,7 @@ json
   "formal_2_casual": "formal2casual_dataset/formal_to_casual_dict.json"
 }
 ⚙️ Processing Pipeline
-Video Upload: User uploads video through web interface
+Video Upload: User uploads video via web interface
 
 Audio Extraction: Extract audio track using MoviePy
 
@@ -110,45 +126,29 @@ Speech Recognition: Transcribe audio using Whisper
 
 Translation: Translate English text to Persian
 
-Text Normalization: Apply Persian text rules and formatting
+Text Normalization: Apply Persian formatting rules
 
 SRT Generation: Create subtitle file with proper timing
 
-Subtitle Burning: Burn subtitles into video using FFmpeg
+Subtitle Burning: Burn subtitles into video with FFmpeg
 
 Cleanup: Remove temporary files
 
-Download: Make processed video available for download
+Download: Processed video available for download
 
 🌐 API Endpoints
-POST /: Upload video files
-
-POST /start_processing: Start processing queue
-
-GET /status: Get processing status
-
-GET /check_file/<filename>: Check if file is ready
-
-GET /download/<filename>: Download processed video
-
-POST /delete/<filename>: Delete uploaded file
-
-📜 License
-MIT License
-
-🙏 Acknowledgments
-OpenAI for the Whisper model
-
-Google for translation services
-
-FFmpeg team for video processing
-
-Persian NLP community for text normalization rules
+Method	Endpoint	Description
+POST	/	Upload video files
+POST	/start_processing	Start processing queue
+GET	/status	Get processing status
+GET	/check_file/<filename>	Check if file is ready
+GET	/download/<filename>	Download processed video
+POST	/delete/<filename>	Delete uploaded file
 
 📊 Performance Notes
 Processing time depends on video length and hardware
 
-Medium Whisper model provides best balance of accuracy/speed
+Medium Whisper model balances accuracy & speed
 
 Recommended max video length: 30 minutes
 
@@ -161,18 +161,15 @@ Some special characters may not render perfectly
 
 Complex English sentences may not translate ideally
 
-text
+📜 License
+MIT License © 2025
 
-This README includes:
-1. SEO-optimized title and description
-2. Badges for key technologies
-3. Clear installation instructions
-4. Comprehensive feature list
-5. Detailed project structure
-6. Configuration documentation
-7. Processing pipeline explanation
-8. API endpoint reference
-9. License information
-10. Performance considerations
+🙏 Acknowledgments
+OpenAI for Whisper model
 
-The markdown is formatted for excellent GitHub rendering and includes keywords that would help with discoverability. You may want to add screenshots of the interface and example videos to make it even more compelling.
+Google for translation services
+
+FFmpeg for video processing
+
+Persian NLP community for text normalization rules
+
