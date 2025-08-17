@@ -65,25 +65,28 @@ mkdir -p Videos output process_status config Converted_Videos logs SRT black_lis
 
 # Create config file
 echo '{}' > config/config.json
-🚀 Usage
-bash
-Copy
-Edit
+````
+
+---
+
+## 🚀 Usage
+
+```bash
 # Start the application
 python app.py
-Access the web interface at http://localhost:5000
+```
 
-Upload your video files (MP4 recommended)
+1. Access the web interface at [http://localhost:5000](http://localhost:5000)
+2. Upload your video files (MP4 recommended)
+3. Click **Start Processing**
+4. Download processed videos when ready
 
-Click Start Processing
+---
 
-Download processed videos when ready
+## 🏗️ Project Structure
 
-🏗️ Project Structure
-text
-Copy
-Edit
-text
+```
+persian-video-translator/
 ├── app.py                # Main Flask application
 ├── main.py               # Core processing pipeline
 ├── extract_from_video.py # Audio extraction and transcription
@@ -97,12 +100,15 @@ text
 ├── process_status/       # Processing status files
 ├── templates/            # Flask templates
 └── requirements.txt      # Python dependencies
-🔧 Configuration
-Edit config/config.json to customize paths and behavior:
+```
 
-json
-Copy
-Edit
+---
+
+## 🔧 Configuration
+
+Edit `config/config.json` to customize paths and behavior:
+
+```json
 {
   "video_path": "path/to/input/video",
   "converted_audio_dir": "Converted_Videos",
@@ -117,59 +123,69 @@ Edit
   "output_video_path": "output/output_translated.mp4",
   "formal_2_casual": "formal2casual_dataset/formal_to_casual_dict.json"
 }
-⚙️ Processing Pipeline
-Video Upload: User uploads video via web interface
+```
 
-Audio Extraction: Extract audio track using MoviePy
+---
 
-Speech Recognition: Transcribe audio using Whisper
+## ⚙️ Processing Pipeline
 
-Translation: Translate English text to Persian
+1. **Video Upload**: User uploads video via web interface
+2. **Audio Extraction**: Extract audio track using MoviePy
+3. **Speech Recognition**: Transcribe audio using Whisper
+4. **Translation**: Translate English text to Persian
+5. **Text Normalization**: Apply Persian formatting rules
+6. **SRT Generation**: Create subtitle file with proper timing
+7. **Subtitle Burning**: Burn subtitles into video with FFmpeg
+8. **Cleanup**: Remove temporary files
+9. **Download**: Processed video available for download
 
-Text Normalization: Apply Persian formatting rules
+---
 
-SRT Generation: Create subtitle file with proper timing
+## 🌐 API Endpoints
 
-Subtitle Burning: Burn subtitles into video with FFmpeg
+| Method | Endpoint                 | Description              |
+| ------ | ------------------------ | ------------------------ |
+| POST   | `/`                      | Upload video files       |
+| POST   | `/start_processing`      | Start processing queue   |
+| GET    | `/status`                | Get processing status    |
+| GET    | `/check_file/<filename>` | Check if file is ready   |
+| GET    | `/download/<filename>`   | Download processed video |
+| POST   | `/delete/<filename>`     | Delete uploaded file     |
 
-Cleanup: Remove temporary files
+---
 
-Download: Processed video available for download
+## 📊 Performance Notes
 
-🌐 API Endpoints
-Method	Endpoint	Description
-POST	/	Upload video files
-POST	/start_processing	Start processing queue
-GET	/status	Get processing status
-GET	/check_file/<filename>	Check if file is ready
-GET	/download/<filename>	Download processed video
-POST	/delete/<filename>	Delete uploaded file
+* Processing time depends on video length and hardware
+* Medium Whisper model balances accuracy & speed
+* Recommended max video length: 30 minutes
+* Queue system prevents resource overutilization
 
-📊 Performance Notes
-Processing time depends on video length and hardware
+---
 
-Medium Whisper model balances accuracy & speed
+## 🐛 Known Issues
 
-Recommended max video length: 30 minutes
+* Long videos may timeout during processing
+* Some special characters may not render perfectly
+* Complex English sentences may not translate ideally
 
-Queue system prevents resource overutilization
+---
 
-🐛 Known Issues
-Long videos may timeout during processing
+## 📜 License
 
-Some special characters may not render perfectly
-
-Complex English sentences may not translate ideally
-
-📜 License
 MIT License © 2025
 
-🙏 Acknowledgments
-OpenAI for Whisper model
+---
 
-Google for translation services
+## 🙏 Acknowledgments
 
-FFmpeg for video processing
+* OpenAI for Whisper model
+* Google for translation services
+* FFmpeg for video processing
+* Persian NLP community for text normalization rules
 
-Persian NLP community for text normalization rules
+```
+
+
+
 
