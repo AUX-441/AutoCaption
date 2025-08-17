@@ -184,8 +184,6 @@ MIT License © 2025
 * FFmpeg for video processing
 * Persian NLP community for text normalization rules
 
-```
-
 
 
 
